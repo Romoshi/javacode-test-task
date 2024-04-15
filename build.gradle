@@ -30,11 +30,11 @@ dependencies {
 	implementation 'org.liquibase:liquibase-core'
 	runtimeOnly 'org.postgresql:postgresql'
 
+	implementation 'com.google.guava:guava:33.1.0-jre'
 	implementation 'com.fasterxml.jackson.core:jackson-core'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.rest-assured:rest-assured'
-
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
