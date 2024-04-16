@@ -2,7 +2,6 @@ package test.task.romoshi.javacode.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import test.task.romoshi.javacode.dto.OperationType;
 import test.task.romoshi.javacode.dto.WalletRequest;
@@ -22,7 +21,7 @@ public class DefaultWalletService implements WalletService {
         return walletRepository.findById(walletId).orElseThrow(NoSuchElementException::new);
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Transactional
     @Override
     public void updateWalletAmount(WalletRequest request) {
         Wallet wallet = walletRepository.findById(request.getWalletId()).orElseThrow(NoSuchElementException::new);
@@ -40,6 +39,7 @@ public class DefaultWalletService implements WalletService {
                 wallet.setAmount(currentAmount);
             }
         }
+
         walletRepository.save(wallet);
     }
 }
