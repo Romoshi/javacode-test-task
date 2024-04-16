@@ -16,5 +16,6 @@ public class Wallet {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private double c_amount;
+    @Column(name = "c_amount")
+    private double amount;
 }
