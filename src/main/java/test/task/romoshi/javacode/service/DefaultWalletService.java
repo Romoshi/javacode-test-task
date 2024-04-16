@@ -3,11 +3,10 @@ package test.task.romoshi.javacode.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import test.task.romoshi.javacode.dto.entity.Wallet;
 import test.task.romoshi.javacode.dto.OperationType;
 import test.task.romoshi.javacode.dto.WalletRequest;
+import test.task.romoshi.javacode.dto.entity.Wallet;
 import test.task.romoshi.javacode.repository.WalletRepository;
 
 import java.util.NoSuchElementException;
@@ -23,7 +22,7 @@ public class DefaultWalletService implements WalletService {
         return walletRepository.findById(walletId).orElseThrow(NoSuchElementException::new);
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void updateWalletAmount(WalletRequest request) {
         Wallet wallet = walletRepository.findById(request.getWalletId()).orElseThrow(NoSuchElementException::new);
