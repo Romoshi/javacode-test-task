@@ -2,9 +2,12 @@ package test.task.romoshi.javacode.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import test.task.romoshi.javacode.model.OperationType;
-import test.task.romoshi.javacode.entity.Wallet;
-import test.task.romoshi.javacode.model.WalletRequest;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import test.task.romoshi.javacode.dto.entity.Wallet;
+import test.task.romoshi.javacode.dto.OperationType;
+import test.task.romoshi.javacode.dto.WalletRequest;
 import test.task.romoshi.javacode.repository.WalletRepository;
 
 import java.util.NoSuchElementException;
@@ -20,21 +23,22 @@ public class DefaultWalletService implements WalletService {
         return walletRepository.findById(walletId).orElseThrow(NoSuchElementException::new);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public void updateWalletAmount(WalletRequest request) {
         Wallet wallet = walletRepository.findById(request.getWalletId()).orElseThrow(NoSuchElementException::new);
-        double newAmount;
+        double currentAmount = wallet.getAmount();
+        double addAmount = request.getAmount();
 
         if(request.getOperationType() == OperationType.DEPOSIT) {
-            newAmount = wallet.getAmount() + request.getAmount();
-            wallet.setAmount(newAmount);
+            wallet.setAmount(currentAmount + addAmount);
         }
         if(request.getOperationType() == OperationType.WITHDRAW) {
-            newAmount = wallet.getAmount() - request.getAmount();
-            if(newAmount <= 0) {
+            currentAmount = currentAmount - addAmount;
+            if(currentAmount <= 0) {
                 throw new IllegalArgumentException();
             } else {
-                wallet.setAmount(newAmount);
+                wallet.setAmount(currentAmount);
             }
         }
         walletRepository.save(wallet);

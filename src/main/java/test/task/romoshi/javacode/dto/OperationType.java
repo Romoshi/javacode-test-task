@@ -1,4 +1,4 @@
-package test.task.romoshi.javacode.model;
+package test.task.romoshi.javacode.dto;
 
 public enum OperationType {
     DEPOSIT, WITHDRAW

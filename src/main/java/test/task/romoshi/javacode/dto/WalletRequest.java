@@ -1,4 +1,4 @@
-package test.task.romoshi.javacode.model;
+package test.task.romoshi.javacode.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

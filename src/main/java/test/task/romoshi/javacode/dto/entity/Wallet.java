@@ -1,4 +1,4 @@
-package test.task.romoshi.javacode.entity;
+package test.task.romoshi.javacode.dto.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
